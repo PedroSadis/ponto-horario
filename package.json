@@ -4,7 +4,7 @@
   "description": "Sistema de Ponto Horário com Electron, Node.js e SQLite3",
   "main": "frontend/main.js",
   "scripts": {
-    "start:backend": "node backend/app.js",
+    "start:backend": "node backend/index.js",
     "start:frontend": "electron .",
     "start:all": "npm run start:backend & npm run start:frontend",
     "install:all": "npm install"
@@ -17,8 +17,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
     "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7"
   },
