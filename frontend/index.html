@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema de Ponto</title>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';">
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        #login-view, #app-view { display: none; }
+        #login-view { display: block; }
+        .container { max-width: 400px; margin: auto; }
+        input, select, button { width: 100%; padding: 10px; margin-bottom: 10px; box-sizing: border-box; }
+        #app-view button { width: auto; padding: 10px 20px; }
+    </style>
+</head>
+<body>
+
+    <div id="login-view" class="container">
+        <h2>Login do Sistema</h2>
+        <form id="loginForm">
+            <input type="email" id="email" placeholder="Email (func@empresa.com ou rh@empresa.com)" required>
+            <input type="password" id="senha" placeholder="Senha (123456)" required>
+            <select id="tipo">
+                <option value="funcionario">Funcionário</option>
+                <option value="rh">Recursos Humanos (RH)</option>
+            </select>
+            <button type="submit">Entrar</button>
+            <p id="login-error" style="color: red;"></p>
+        </form>
+    </div>
+
+    <div id="app-view">
+        <h2 id="welcome-message"></h2>
+        <button id="logoutButton">Sair</button>
+        <hr>
+
+        <div id="funcionario-area">
+            <h3>Registrar Ponto</h3>
+            <button id="btnEntrada">Registrar Entrada</button>
+            <button id="btnSaida">Registrar Saída</button>
+            <p id="ponto-status" style="color: green;"></p>
+        </div>
+
+        <div id="rh-area">
+            <h3>Painel RH</h3>
+            <p>Aqui você poderá cadastrar funcionários e gerar relatórios.</p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
