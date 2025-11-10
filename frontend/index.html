@@ -1,31 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <head>
     <meta charset="UTF-8">
     <title>Sistema de Ponto</title>
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';">
-    <style>
-        body { font-family: Arial, sans-serif; padding: 20px; }
-        #login-view, #app-view { display: none; }
-        #login-view { display: block; }
-        .container { max-width: 400px; margin: auto; }
-        input, select, button { width: 100%; padding: 10px; margin-bottom: 10px; box-sizing: border-box; }
-        #app-view button { width: auto; padding: 10px 20px; }
-    </style>
+    
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'; style-src 'self';">
+    
+    <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
 
     <div id="login-view" class="container">
         <h2>Login do Sistema</h2>
         <form id="loginForm">
-            <input type="email" id="email" placeholder="Email (func@empresa.com ou rh@empresa.com)" required>
-            <input type="password" id="senha" placeholder="Senha (123456)" required>
-            <select id="tipo">
-                <option value="funcionario">Funcionário</option>
-                <option value="rh">Recursos Humanos (RH)</option>
-            </select>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="senha" placeholder="Senha " required>
             <button type="submit">Entrar</button>
-            <p id="login-error" style="color: red;"></p>
+            <p id="login-status" style="color: green;"></p>
         </form>
     </div>
 
@@ -39,11 +32,81 @@
             <button id="btnEntrada">Registrar Entrada</button>
             <button id="btnSaida">Registrar Saída</button>
             <p id="ponto-status" style="color: green;"></p>
+
+            <hr>
+            <h4>Meus Últimos Registros</h4>
+            <div id="lista-registros" style="height: 250px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; margin-top: 10px; background: #f9f9f9;">
+                <p>Carregando registros...</p>
+            </div>
+
+            <hr>
+            <h4>Solicitações (Ajuste de Ponto / Atestado)</h4>
+            <form id="solicitacaoForm">
+                <label for="tipo_solicitacao">Tipo de Solicitação:</label>
+                <select id="tipo_solicitacao" required>
+                    <option value="">-- Selecione --</option>
+                    <option value="Ajuste de Ponto">Ajuste de Ponto</option>
+                    <option value="Atestado (Falta)">Atestado (Falta)</option>
+                </select>
+                
+                <label for="justificativa">Justificativa:</label>
+                <textarea id="justificativa" placeholder="Descreva o motivo (ex: 'Esqueci de bater o ponto na saída do dia 10' ou 'Atestado médico de 2 dias')" required style="height: 60px;"></textarea>
+
+                <label for="anexo_atestado">Link do Anexo (Opcional):</label>
+                <input type="text" id="anexo_atestado" placeholder="Cole aqui o link para o seu atestado (Ex: Google Drive)">
+
+                <button type="submit" style="width: auto; padding: 10px 20px;">Enviar Solicitação</button>
+            </form>
+            <p id="solicitacao-status" style="color: green;"></p>
+
+            <hr>
+            <h4>Registrar Entrega de Mercadoria</h4>
+            <form id="entregaForm">
+                <label for="descricao_mercadoria">Descrição / Quantidade:</label>
+                <input type="text" id="descricao_mercadoria" placeholder="Ex: 10 caixas de material, 5 paletes" required>
+
+                <label for="numero_nota_fiscal">Número da Nota Fiscal (Opcional):</label>
+                <input type="text" id="numero_nota_fiscal" placeholder="Ex: 123456">
+
+                <button type="submit" style="width: auto; padding: 10px 20px;">Registrar Entrega</button>
+            </form>
+            <p id="entrega-status" style="color: green;"></p>
         </div>
 
         <div id="rh-area">
             <h3>Painel RH</h3>
-            <p>Aqui você poderá cadastrar funcionários e gerar relatórios.</p>
+            
+            <h4>Cadastrar Novo Funcionário</h4>
+            <form id="registroFuncionarioForm">
+                <input type="text" id="reg_nome" placeholder="Nome Completo" required>
+                <input type="text" id="reg_cpf" placeholder="CPF (xxx.xxx.xxx-xx)" required>
+                <input type="email" id="reg_email" placeholder="Email (ex: func@empresa.com)" required>
+                <input type="password" id="reg_senha" placeholder="Senha Provisória" required>
+                <label for="reg_data_admissao" style="margin-top: 0px;">Data de Admissão:</label>
+                <input type="date" id="reg_data_admissao" required>
+                <button type="submit">Cadastrar Funcionário</button>
+            </form>
+            <p id="rh-status" style="color: green;"></p>
+
+            <hr>
+            <h4>Gerar Relatório de Funcionário</h4>
+            
+            <label for="rh_select_funcionario">Selecione um Funcionário:</label>
+            <select id="rh_select_funcionario">
+                <option value="">-- Carregando funcionários... --</option>
+            </select>
+            
+            <button id="rh_btn_gerar_relatorio" style="width: auto; padding: 10px 20px; margin-top: 10px;">Gerar Relatório</button>
+            <p id="rh-relatorio-status" style="color: blue;"></p>
+
+            <div id="rh_relatorio_resultado" style="display: none; margin-top: 20px;">
+                <h5>Registros de Ponto</h5>
+                <div id="relatorio_pontos_content" style="height: 200px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; background: #f9f9f9;"></div>
+
+                <h5 style="margin-top: 15px;">Registros de Entregas</h5>
+                <div id="relatorio_entregas_content" style="height: 200px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; background: #f9f9f9;"></div>
+            </div>
+
         </div>
     </div>
 
